@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  api:
+    image: dl-api
+    build:
+      context: ./api
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - "./api/:/app/"
+  #  client:
+  #    image: hub.comcast.net/ngan-registry/hcp-client:prod
+  #    build:
+  #      context: ./services/client
+  #    restart: always
+
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+#  nginx:
+#    image: hub.comcast.net/ngan-registry/hcp-nginx
+#    build:
+#      context: ./services/nginx
+#    ports:
+#      - 80:80
+#    depends_on:
+#      - api
+#      - client
+#    restart: always
+
+volumes:
+  db-data:
+    driver: local
